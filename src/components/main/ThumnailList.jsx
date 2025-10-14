@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { TESTS } from "../../data/TESTS";
 import { Link, useSearchParams } from "react-router-dom";
-import { base_url } from "../../App";
 
 export default function ThumnailList() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -36,10 +35,7 @@ export default function ThumnailList() {
   return (
     <>
       {testList?.map((test) => (
-        <Link
-          to={`${base_url}/${test?.info?.mainUrl}`}
-          key={test?.info?.mainUrl}
-        >
+        <Link to={`/${test?.info?.mainUrl}`} key={test?.info?.mainUrl}>
           <img
             src={test?.info?.thumbImage}
             alt={test?.info?.mainUrl}
