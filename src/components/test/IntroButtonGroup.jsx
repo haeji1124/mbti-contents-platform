@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import { eventSenderGA } from "../../tools/tools";
 import { LinkOutlined, HomeOutlined } from "@ant-design/icons";
 import styles from "./intro.module.css";
+import copy from "copy-to-clipboard";
+import { base_url } from "../../App";
+import { useNavigate } from "react-router-dom";
 
 export default function IntroButtonGroup({ testParam }) {
+  const [isCopied, setIsCopied] = useState(false);
+  const navigate = useNavigate();
+
   const handleCopy = () => {
     const success = copy(`${base_url}/${testParam}`);
     if (success) {
