@@ -1,13 +1,18 @@
 import React from "react";
 import IntroButtonGroup from "./IntroButtonGroup";
+import { eventSenderGA } from "../../tools/tools";
 
 export default function Intro({ info, setMode }) {
+  const onImageClick = () => {
+    eventSenderGA("Paging", "Test Start Button", "Intro");
+    setMode("quiz");
+  };
   return (
     <>
       <h1>{info?.mainTitle}</h1>
       <h3>{info?.subTitle}</h3>
       <img
-        onClick={() => setMode("quiz")}
+        onClick={onImageClick}
         src={info?.mainImage}
         alt={info?.mainTitle}
         style={{ width: "100%", cursor: "pointer" }}
