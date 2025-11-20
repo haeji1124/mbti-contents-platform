@@ -1,17 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AffiliateButton from "../AffiliateButton";
 import styles from "../AffiliateButton.module.css";
+import Cookies from "js-cookie";
 
 export default function TestResultRenderer({ renderResultInfo }) {
   const [isOpened, setIsOpened] = useState(false);
+  const [affiliateCookie, setAffiliateCookie] = useState(
+    Cookies.get("affiliate")
+  );
   console.log(isOpened);
+
+  useEffect(() => {
+    setAffiliateCookie(Cookies.get("affiliate"));
+  }, []);
 
   return (
     <div>
       <h3>결과는...</h3>
       <div
         className={styles.resultImageDiv}
-        style={{ height: isOpened ? "100%" : "15rem" }}
+        style={{ height: isOpened || affiliateCookie ? "100%" : "15rem" }}
       >
         <img
           style={{ width: "100%" }}
@@ -19,7 +27,9 @@ export default function TestResultRenderer({ renderResultInfo }) {
           alt={renderResultInfo?.type}
         />
       </div>
-      {!isOpened && <AffiliateButton setIsOpened={setIsOpened} />}
+      {!(isOpened || affiliateCookie) && (
+        <AffiliateButton setIsOpened={setIsOpened} />
+      )}
     </div>
   );
 }
