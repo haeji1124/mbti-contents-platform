@@ -3,11 +3,12 @@ import { useParams, useNavigate } from "react-router-dom";
 import IntroRenderer from "../components/test/IntroRenderer";
 import { TESTS } from "../data/TESTS";
 import { useState, useEffect } from "react";
+import MetatagRenderer from "../components/metatagRenderer/IntroMetatagRenderer";
 
 export default function Test() {
   const { testParam } = useParams();
   const navigate = useNavigate();
-  const [currentTest, setCurrentTest] = useState();
+  const [currentTest, setCurrentTest] = useState(null);
 
   useEffect(() => {
     const theTest = TESTS?.find((test) => test?.info?.mainUrl === testParam);
@@ -16,10 +17,16 @@ export default function Test() {
       return navigate("/");
     }
     setCurrentTest(theTest);
-  }, [testParam]);
+  }, [testParam, navigate]);
+
+  // currentTest가 로드될 때까지 대기
+  if (!currentTest) {
+    return null; // 또는 <div>Loading...</div>
+  }
 
   return (
     <>
+      <MetatagRenderer currentTest={currentTest} />
       <IntroRenderer currentTest={currentTest} />
     </>
   );

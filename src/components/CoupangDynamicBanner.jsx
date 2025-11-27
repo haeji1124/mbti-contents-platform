@@ -7,15 +7,16 @@ export default function CoupangDynamicBanner({ unit }) {
     resultBanner:
       "https://ads-partners.coupang.com/widgets.html?id=941813&template=carousel&trackingCode=AF8998851&subId=&width=680&height=140&tsource=",
   };
+
   return (
     <div>
       <iframe
         src={unitMapper[unit]}
         width="680"
         height="140"
-        frameborder="0"
+        frameBorder="0"
         scrolling="no"
-        referrerpolicy="unsafe-url"
+        referrerPolicy="unsafe-url"
       ></iframe>
     </div>
   );
