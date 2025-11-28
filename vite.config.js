@@ -19,31 +19,36 @@ import PuppeteerRenderer from "@prerenderer/renderer-puppeteer";
 export default defineConfig({
   plugins: [
     react(),
-    prerender({
-      routes: [
-        "/",
-        "/personalColor",
-        "/blog/personalColor",
-        "/personalColorEng",
-        "/personalColorEng/result/ESTJ",
-      ],
-      renderer: PuppeteerRenderer,
-      server: {
-        port: 3000,
-        host: "localhost",
-      },
-      rendererOptions: {
-        maxConcurrentRoutes: 1,
-        renderAfterTime: 500,
-      },
-      postProcess(renderedRoute) {
-        renderedRoute.html = renderedRoute.html
-          .replace(/http:/i, "https:")
-          .replace(
-            /(https:\/\/)?(localhost|127\.0\.0\.1):\d*/i,
-            "https://haeji1124.shop/"
-          );
-      },
-    }),
+    // Vercel 환경이 아닐 때만 prerender 사용 (Cloudflare에서만)
+    ...(process.env.VERCEL !== "1"
+      ? [
+          prerender({
+            routes: [
+              "/",
+              "/personalColor",
+              "/blog/personalColor",
+              "/personalColorEng",
+              "/personalColorEng/result/ESTJ",
+            ],
+            renderer: PuppeteerRenderer,
+            server: {
+              port: 3000,
+              host: "localhost",
+            },
+            rendererOptions: {
+              maxConcurrentRoutes: 1,
+              renderAfterTime: 500,
+            },
+            postProcess(renderedRoute) {
+              renderedRoute.html = renderedRoute.html
+                .replace(/http:/i, "https:")
+                .replace(
+                  /(https:\/\/)?(localhost|127\.0\.0\.1):\d*/i,
+                  "https://haeji1124.shop/"
+                );
+            },
+          }),
+        ]
+      : []),
   ],
 });
